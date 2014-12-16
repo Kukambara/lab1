@@ -1,6 +1,8 @@
 package ua.nure.game.objects;
 
+import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import ua.nure.NeurophNetwork;
 import ua.nure.game.steering.Steerable;
 import ua.nure.game.steering.Steering;
 
@@ -21,6 +23,7 @@ public class Car extends GameObject implements Steerable {
 
     Camera camera;
     Image image;
+    DataSet dataSet;
 
     /**
      * Steering object is used for Car steering
@@ -42,6 +45,7 @@ public class Car extends GameObject implements Steerable {
         camera = new Camera(this, 1);
         setTexture("/resources/car.png");
         steering = new Steering(this);
+        dataSet = new DataSet(58, 2);
     }
 
     /**
@@ -60,11 +64,21 @@ public class Car extends GameObject implements Steerable {
         input.add(oldSpeed);
         input.add(oldAngle);
         System.out.println(input.size());
+        if (input.size() < 58) {
+            return;
+        }
 
         DataSetRow dataSetRow = new DataSetRow(input, new ArrayList<java.lang.Double>() {{
             add(steering.accelerator.getSpeed());
             add(a);
         }});
+        dataSet.addRow(dataSetRow);
+    }
+
+
+    public void trainNN() {
+        NeurophNetwork nn = new NeurophNetwork();
+        nn.trainNN(dataSet);
     }
 
     public void setImage(Image image) {

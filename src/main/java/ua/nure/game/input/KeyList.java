@@ -86,4 +86,9 @@ public class KeyList extends HashSet<Integer> {
 	public static boolean space() {
 		return keylist.contains(KeyEvent.VK_SPACE);
 	}
+
+
+	public static boolean cancel(){
+		return keylist.contains(KeyEvent.VK_ESCAPE);
+	}
 }

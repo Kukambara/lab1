@@ -5,19 +5,22 @@ import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.TransferFunctionType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class NeurophNetwork {
 
 
-    private final NeuralNetwork neuralNetwork;
+    private MultiLayerPerceptron neuralNetwork;
 
     public NeurophNetwork() {
-        neuralNetwork = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 58, 10, 10, 10, 10, 2);
+        neuralNetwork = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 58, 10, 10, 10, 2);
     }
 
-    public void trainNN() {
-        DataSet dataSet = new DataSet(100, 2);
+    public void trainNN(DataSet dataset) {
+        neuralNetwork.learn(dataset);
+
+        neuralNetwork.save("myMlPerceptron.nnet");
+    }
+
+    public void load() {
+        neuralNetwork = (MultiLayerPerceptron) NeuralNetwork.createFromFile("myMlPerceptron.nnet");
     }
 }

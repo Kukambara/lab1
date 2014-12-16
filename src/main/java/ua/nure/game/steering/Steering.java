@@ -1,6 +1,7 @@
 package ua.nure.game.steering;
 
 import ua.nure.game.input.KeyList;
+import ua.nure.game.objects.Car;
 import ua.nure.game.objects.GameObject;
 import ua.nure.game.steering.Accelerator.AccState;
 
@@ -22,7 +23,7 @@ public class Steering extends Component {
 	/**
 	 * Reference to the ua.nure.game object
 	 */
-	GameObject obj;
+	Car obj;
 
 	/**
 	 * Reference to accelerator
@@ -40,7 +41,7 @@ public class Steering extends Component {
 	 * @param obj
 	 *            - GameObject
 	 */
-	public Steering(GameObject obj) {
+	public Steering(Car obj) {
 		this.obj = obj;
 		accelerator = new Accelerator(obj);
 		accelerator.start();
@@ -51,6 +52,8 @@ public class Steering extends Component {
 	 */
 	public void steer() {
 
+		cancel();
+
 		speedUp();
 
 		slowDown();
@@ -59,6 +62,12 @@ public class Steering extends Component {
 
 		performMove();
 
+	}
+
+	private void cancel() {
+		if(KeyList.cancel()){
+			obj.trainNN();
+		}
 	}
 
 	/**
